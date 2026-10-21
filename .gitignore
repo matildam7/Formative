@@ -1,0 +1,23 @@
+# History files
+.Rhistory
+.Rapp.history
+
+# Session Data files
+.RData
+
+# User-specific files
+.Ruserdata
+.Rproj.user/
+
+.Renviron
+.httr-oauth
+.env
+
+# Editor and system files
+.vscode/
+Thumbs.db
+desktop.ini
+
+#don't upload contents of data directory
+data/*
+code/README.txt
