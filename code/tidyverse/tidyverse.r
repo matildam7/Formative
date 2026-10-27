@@ -1,3 +1,5 @@
+#Section 1: loading demographics data-------------------------------------
+
 #Load in the tidyverse, dpylr and haven packages
 #haven is a package that can read xpt files
 library(this.path)
@@ -19,3 +21,14 @@ demo_tibble <- demo_tibble |> rename("age" = RIDAGEYR)
 demo_tibble <- demo_tibble |> rename("ethnicity" = RIDRETH1)
 #check that the tibble was created correctly
 head(demo_tibble)
+
+#Section 2: merging demographics data-------------------------------------
+#read in the body measurements data
+bmx_data <- read.csv("data/original/BMX_D.csv")
+#reformatting the variable names to lowercase
+bmx_data <- bmx_data |> rename_with(tolower)
+demo_tibble <- demo_tibble |> rename_with(tolower)
+bmx_data <- bmx_data |> rename("participant_ID" = SEQN) 
+merged_bmx_demo <- bmx_data |> left_join(demo_tibble, by = join_by(participant_id))
+#moving the demographics data to the left of the bmx data after participant id
+merged_bmx_demo <- merged_bmx_demo |> relocate(participant_id, age, gender, ethnicity)
