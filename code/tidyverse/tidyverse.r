@@ -78,3 +78,6 @@ merged_bmx_demo |>
 merged_bmx_demo |> filter (age < 16, in_sample == 1) |>
   summarise(max_height = max(bmxht, na.rm = TRUE))
 #maximum height of under 16s that are in the sample was 190.7cm
+
+#Section 6: exporting the data-------------------------------------------------
+write.csv(merged_bmx_demo, "data/derived/demographic_body_measures.csv")
