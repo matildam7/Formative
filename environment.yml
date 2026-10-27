@@ -1,0 +1,9 @@
+name: formative_env
+channels:
+  - conda-forge
+  - defaults
+dependencies:
+  - r-tidyverse
+  - r-base
+  - r-haven
+prefix: /home/matildam/miniconda3/envs/formative_env
