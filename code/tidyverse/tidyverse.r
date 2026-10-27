@@ -48,3 +48,33 @@ merged_bmx_demo <- merged_bmx_demo |> relocate(participant_id, in_sample)
 #Section 4: creating an obesity variable-------------------------------------
 #creating an obesity variable where people over the age of 20 are put into the obese category if their bmi is over 30
 merged_bmx_demo <- merged_bmx_demo |> mutate(obesity = if_else(age >= 20, if_else(bmxbmi >= 30, 1, 0), NA))
+
+#Section 5: summarising the data-------------------------------------
+#Obesity percentages----------------------------------------------
+
+#filters out the people with no obesity data, then groups by obesity
+#counts the number of obese and non obese people, then counts the number of
+#people that have acceleromter data
+#number of people with accelerometer data is divided by the total number if people in that group (obese or not)
+#and then multiplied by 100 to work out a percentage
+merged_bmx_demo |> filter (!is.na(obesity)) |>
+  group_by(obesity) |>
+  summarise( n = n(),
+    n_with_accel = sum(in_sample == 1),
+    percent_with_accel = (n_with_accel/ n ) * 100
+  )
+
+#gender percentages
+merged_bmx_demo |>
+  group_by(gender) |>
+  summarise( n = n(),
+    n_with_accel = sum(in_sample == 1),
+    percent_with_accel = (n_with_accel/ n ) * 100
+  )
+
+#73.6% of males have activity monitor data compared with 75.7% of females
+
+#maximum reported child height
+merged_bmx_demo |> filter (age < 16, in_sample == 1) |>
+  summarise(max_height = max(bmxht, na.rm = TRUE))
+#maximum height of under 16s that are in the sample was 190.7cm
