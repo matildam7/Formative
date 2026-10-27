@@ -44,3 +44,7 @@ merged_bmx_demo <- merged_bmx_demo |> left_join(sample_data, by = join_by(partic
 merged_bmx_demo <- merged_bmx_demo |> rename("in_sample" = insample)
 #moving the "in sample" variable to the right of "participant id"
 merged_bmx_demo <- merged_bmx_demo |> relocate(participant_id, in_sample)
+
+#Section 4: creating an obesity variable-------------------------------------
+#creating an obesity variable where people over the age of 20 are put into the obese category if their bmi is over 30
+merged_bmx_demo <- merged_bmx_demo |> mutate(obesity = if_else(age >= 20, if_else(bmxbmi >= 30, 1, 0), NA))
