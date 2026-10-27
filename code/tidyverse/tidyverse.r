@@ -32,3 +32,15 @@ bmx_data <- bmx_data |> rename("participant_ID" = SEQN)
 merged_bmx_demo <- bmx_data |> left_join(demo_tibble, by = join_by(participant_id))
 #moving the demographics data to the left of the bmx data after participant id
 merged_bmx_demo <- merged_bmx_demo |> relocate(participant_id, age, gender, ethnicity)
+
+#Section 3: merging sample information-------------------------------------
+#read in the sample file
+sample_data <- read.csv("data/derived/sample.csv")
+#rename the id number so it matches the other two sets of data
+sample_data <- sample_data |> rename("participant_id" = SEQN) 
+#merging with the previously merged demographics data
+merged_bmx_demo <- merged_bmx_demo |> left_join(sample_data, by = join_by(participant_id))
+#renaming the insample variable to in_sample
+merged_bmx_demo <- merged_bmx_demo |> rename("in_sample" = insample)
+#moving the "in sample" variable to the right of "participant id"
+merged_bmx_demo <- merged_bmx_demo |> relocate(participant_id, in_sample)
